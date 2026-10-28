@@ -11,6 +11,11 @@ st.set_page_config(
 )
 
 
+def navigate_to(page_name: str) -> None:
+    """Updates the active page in session state."""
+    st.session_state["page"] = page_name
+
+
 def render_home() -> None:
     """Renders a clean, simple selection screen for the two assignment applications."""
     st.title("Machine Learning Assignment")
@@ -26,9 +31,12 @@ def render_home() -> None:
             "Detect faces and eyes in images using OpenCV Haar Cascades. "
             "Supports mobile/webcam camera capture, image file upload, and built-in sample images."
         )
-        if st.button("Open Face Detection Application", use_container_width=True):
-            st.session_state["page"] = "1. Face Detection Application"
-            st.rerun()
+        st.button(
+            "Open Face Detection Application",
+            on_click=navigate_to,
+            args=("1. Face Detection Application",),
+            use_container_width=True,
+        )
 
     with col2:
         st.subheader("2. ML Assignment 2: Build and Analyse an ML Model")
@@ -36,9 +44,12 @@ def render_home() -> None:
             "End-to-end machine learning workflow: dataset selection, problem statement, "
             "data preprocessing, model training and testing, evaluation metrics, plots, and result analysis."
         )
-        if st.button("Open ML Assignment 2", use_container_width=True):
-            st.session_state["page"] = "2. ML Assignment 2"
-            st.rerun()
+        st.button(
+            "Open ML Assignment 2",
+            on_click=navigate_to,
+            args=("2. ML Assignment 2",),
+            use_container_width=True,
+        )
 
 
 def main() -> None:
@@ -54,15 +65,11 @@ def main() -> None:
 
     with st.sidebar:
         st.header("Navigation")
-        selected = st.radio(
+        st.radio(
             "Go to:",
             options=options,
-            index=options.index(st.session_state["page"]),
-            key="nav_radio",
+            key="page",
         )
-        if selected != st.session_state["page"]:
-            st.session_state["page"] = selected
-            st.rerun()
 
     if st.session_state["page"] == "1. Face Detection Application":
         render_face_detection_app()
