@@ -238,6 +238,7 @@ def render_face_detection_app() -> None:
             "📂 Upload Photo from Device",
         ],
         horizontal=True,
+        key="face_input_channel",
     )
 
     rgb_input = None

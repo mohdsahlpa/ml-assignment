@@ -225,6 +225,7 @@ def main() -> None:
             "Select Active Application:",
             options=nav_options,
             index=nav_options.index(st.session_state["active_instance"]),
+            key="workspace_switcher",
         )
         if selected != st.session_state["active_instance"]:
             st.session_state["active_instance"] = selected
